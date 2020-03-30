@@ -20,6 +20,7 @@ set -e
 #          They are NOT bundled with it!
 #
 #          DO NOT ADD THESE TO THE REGULAR Windows PATH!!!
+#
 JDK_VERSION=8u242-b08
 JDK_PKG=OpenJDK8U-jdk_x64_windows_hotspot_8u242b08.zip
 JDK_DIR=jdk$JDK_VERSION
@@ -55,4 +56,24 @@ wget https://www-eu.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/$MAVEN
 unzip $MAVEN_PKG -d /opt/
 echo "export PATH=\$PATH:/opt/$MAVEN_DIR/bin" >> ~/.bashrc
 
-echo  echo -e "\033[0;31mReopen console for update environment\033[0m"
+# setup for CMake
+echo 'export CMAKE_GENERATOR="MSYS Makefiles"' >> ~/.bashrc
+# tell Make to use all available processors
+echo 'export MAKEFLAGS="-j$(nproc)"' >> ~/.bashrc
+
+
+# kms-jsonrpc requires kmsjsoncpp, the regular jsoncpp
+# is for some reason not accepted
+source ~/.bashrc
+DIRNAME=${0%/*}
+pushd "$DIRNAME/.."
+git clone https://github.com/Kurento/jsoncpp.git
+mkdir -p build/jsoncpp
+cd build/jsoncpp
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$MINGW_PREFIX -DBUILD_STATIC_LIBS=ON -DBUILD_SHARED_LIBS=OFF ../../jsoncpp
+make
+make install
+popd
+
+
+echo -e "\033[0;31mReopen console to update environment or source ~/.bashrc\033[0m"
