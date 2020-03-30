@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# TEMPORARY - Retrieve the DResearch Kurento forks with the
+#             same hierarchy like Kurento's kms-omni-build
+# This will be no longer needed once merged into the
+# original repositories.
+
 # exit on failure
 set -e
 

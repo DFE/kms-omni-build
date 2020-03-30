@@ -17,7 +17,9 @@ not intended.
 * You require an account with administrator rights.
   It may work somehow without, but that has not been tested.
 
-## Setting Up MSYS2
+## Initial Setup
+
+### Setting Up MSYS2
 * Download installer MSYS2 64 bit from https://www.msys2.org/
   Note: 32 bit compilation was not tested. It may or may not work.
 * If you have Cygwin also installed, make sure that the HOME environment variable on Windows
@@ -32,7 +34,7 @@ not intended.
 * Run: pacman -S git
   You require git to clone the Kurento repositories.
 
-## Clone Me!
+### Clone Me!
 
 * Per ssh: git clone -b bionic-gstreamer git@github.com:DFE/kms-omni-build
 * Per https: git clone -b bionic-gstreamer https://github.com/DFE/kms-omni-build.git
@@ -41,8 +43,7 @@ If you want to commit something later, do not forget to:
 * git config --global user.email "you@example.com"
 * git config --global user.name "Your Name"
 
-
-## Setting Up the Submodules
+### Setting Up the Submodules
 
 To avoid interesting side-effects between the forked repositories and the
 original ones, this fork does not use the Git submodule approach, but
@@ -60,10 +61,15 @@ For further reading regarding forks:
 * https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/working-with-forks
 * https://jarv.is/notes/how-to-pull-request-fork-github/
 
+### Installing Required MSYS2 Packages
 
-## Installing Required MSYS2 Packages
+In the MingW console:
+* bin/setup-msys.sh
+* exit   OR   source ~/.bashrc
 
-Did I mention that this not complete, yet?
+Congratulations! You will not need to run any of the
+steps above again. Now you can proceed with the real
+stuff.
 
 ## Compiling
 
@@ -88,6 +94,7 @@ This project is licensed under the Apacha 2.0 License - see the [LICENSE](LICENS
 ## Windows Port
 
 Windows port by: https://www.dresearch-fe.de/
+
 Authors:
 * Florian Friederici
 * Andreas Zisowsky
