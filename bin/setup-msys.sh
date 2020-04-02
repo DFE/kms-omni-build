@@ -29,21 +29,25 @@ MAVEN_VERSION=3.6.3
 MAVEN_PKG=apache-maven-$MAVEN_VERSION-bin.zip
 MAVEN_DIR=apache-maven-$MAVEN_VERSION
 
-# install essential tools
+# install essential tools and helpers for Kurento
 pacman -S --noconfirm --needed \
-	base-devel \
-	$MINGW_PACKAGE_PREFIX-cmake \
-	$MINGW_PACKAGE_PREFIX-toolchain
+    base-devel \
+    $MINGW_PACKAGE_PREFIX-astyle \
+    $MINGW_PACKAGE_PREFIX-cmake \
+    $MINGW_PACKAGE_PREFIX-indent \
+    $MINGW_PACKAGE_PREFIX-toolchain
 
 # install libraries for Kurento
 pacman -S --noconfirm --needed \
-	$MINGW_PACKAGE_PREFIX-gst-libav \
-	$MINGW_PACKAGE_PREFIX-gst-plugins-bad \
-	$MINGW_PACKAGE_PREFIX-gst-plugins-base \
-	$MINGW_PACKAGE_PREFIX-gst-plugins-good \
-	$MINGW_PACKAGE_PREFIX-gst-plugins-ugly \
-	$MINGW_PACKAGE_PREFIX-gstreamer \
-	$MINGW_PACKAGE_PREFIX-SDL
+    $MINGW_PACKAGE_PREFIX-glibmm \
+    $MINGW_PACKAGE_PREFIX-gst-libav \
+    $MINGW_PACKAGE_PREFIX-gst-plugins-bad \
+    $MINGW_PACKAGE_PREFIX-gst-plugins-base \
+    $MINGW_PACKAGE_PREFIX-gst-plugins-good \
+    $MINGW_PACKAGE_PREFIX-gst-plugins-ugly \
+    $MINGW_PACKAGE_PREFIX-gstreamer \
+    $MINGW_PACKAGE_PREFIX-SDL \
+    $MINGW_PACKAGE_PREFIX-libsigc++
 
 # install OpenJDK for Kurento Module Creator
 wget https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/$JDK_DIR/$JDK_PKG
@@ -61,19 +65,15 @@ echo 'export CMAKE_GENERATOR="MSYS Makefiles"' >> ~/.bashrc
 # tell Make to use all available processors
 echo 'export MAKEFLAGS="-j$(nproc)"' >> ~/.bashrc
 
-
-# kms-jsonrpc requires kmsjsoncpp, the regular jsoncpp
-# is for some reason not accepted
-source ~/.bashrc
+# get helper libraries for Kurento
 DIRNAME=${0%/*}
 pushd "$DIRNAME/.."
+# kms-jsonrpc requires kmsjsoncpp, the regular jsoncpp
+# is for some reason not accepted
 git clone https://github.com/Kurento/jsoncpp.git
-mkdir -p build/jsoncpp
-cd build/jsoncpp
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$MINGW_PREFIX -DBUILD_STATIC_LIBS=ON -DBUILD_SHARED_LIBS=OFF ../../jsoncpp
-make
-make install
+# libuuid is for some reason only available as MSYS package
+# and not as MingW64 package
+git clone https://github.com/cloudbase/libuuid.git
 popd
-
 
 echo -e "\033[0;31mReopen console to update environment or source ~/.bashrc\033[0m"

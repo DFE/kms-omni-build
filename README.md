@@ -27,7 +27,7 @@ not intended.
 * Install MSYS2 and let it finally open the terminal.
 * Run: pacman -Syu
   This will update the MSYS2 core. Close the terminal window at the end, do not use exit!
-* Open MSYS2 MingW 64 bit from the start menu
+* Open MSYS2 MingW 64-bit (not MSYS2 MSYS!) from the start menu
   Alternatively open mingw64.exe with Explorer.
 * Run: pacman -Su
   This will update the remaining packages of MSYS2.
@@ -50,7 +50,7 @@ original ones, this fork does not use the Git submodule approach, but
 it sets up the required forked repositories in the same hierarchy
 as the original repository.
 
-In the MingW console:
+In the MingW 64-bit console (not MSYS2 MSYS!):
 * cd kms-omni-build
 * bin/setup-forks.sh
 
@@ -63,7 +63,7 @@ For further reading regarding forks:
 
 ### Installing Required MSYS2 Packages
 
-In the MingW console:
+In the MingW 64-bit console (not MSYS2 MSYS!):
 * bin/setup-msys.sh
 * exit   OR   source ~/.bashrc
 
@@ -73,7 +73,10 @@ stuff.
 
 ## Compiling
 
-Nope, not there yet.
+In the MingW 64-bit console (not MSYS2 MSYS!):
+* bin/kms-win-build.sh
+
+NOT COMPLETE YET! Work in progress ...
 
 ## Creating a Distribution Packages
 
