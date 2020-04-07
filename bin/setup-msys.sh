@@ -47,6 +47,7 @@ pacman -S --noconfirm --needed \
     $MINGW_PACKAGE_PREFIX-gst-plugins-ugly \
     $MINGW_PACKAGE_PREFIX-gstreamer \
     $MINGW_PACKAGE_PREFIX-SDL \
+    $MINGW_PACKAGE_PREFIX-libevent \
     $MINGW_PACKAGE_PREFIX-libsigc++
 
 # install OpenJDK for Kurento Module Creator
@@ -71,9 +72,15 @@ pushd "$DIRNAME/.."
 # kms-jsonrpc requires kmsjsoncpp, the regular jsoncpp
 # is for some reason not accepted
 git clone https://github.com/Kurento/jsoncpp.git
+
 # libuuid is for some reason only available as MSYS package
 # and not as MingW64 package
 git clone https://github.com/cloudbase/libuuid.git
+
+# libwebsocketpp is required for kurento-media-server
+# master branch does not compile with newer Boost versions,
+# need to use develop branch that contains an appropriate patch
+git clone -b develop https://github.com/zaphoyd/websocketpp
 popd
 
 echo -e "\033[0;31mReopen console to update environment or source ~/.bashrc\033[0m"

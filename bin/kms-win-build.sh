@@ -97,6 +97,17 @@ make install
 popd
 
 
+# websocketpp
+# libwebsocketpp is required for kurento-media-server
+enter_build_dir websocketpp
+cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
+      -DCMAKE_INSTALL_PREFIX="$CMAKE_INSTALL_PREFIX" \
+      ../../websocketpp
+make
+make install
+popd
+
+
 cat <<EOF
 
 **********************************************************
