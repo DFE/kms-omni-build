@@ -88,25 +88,38 @@ Work in progress.
 
 ### Adapted Repositories
 
+KMS
+* jsoncpp (no changes)
+* kms-cmake-utils
+* kms-core
+* kms-elements (PENDING)
+* kms-jsonrpc (no changes)
+* kurento-media-server
+* kurento-module-creator
+
+3rd Party
+* libuuid
+* websocketpp
+
 ### Missing / TBD
 
 * Testing
-** None of the test code has been adapted or even tried.
+  * None of the test code has been adapted or even tried.
 * kms-filters
-** This is intended once OpenCV 4 is supported
+  * This is intended once OpenCV 4 is supported
 * Debug Support
-** In kurento-media-server the class DeathHandler should
-   be adapted to create stack traces on Windows etc.
-** Clang and sanitizers have not been tested.
+  * In kurento-media-server the class DeathHandler should
+    be adapted to create stack traces on Windows etc.
+  * Clang and sanitizers have not been tested.
 * Packaging
-** Maybe add an NSIS installer for Windows.
+  * Maybe add an NSIS installer for Windows.
 * Visual Studio
-** This seems like an enormous effort and is not planned.
+  * This seems like an enormous effort and is not planned.
 * Cygwin
-** For some reason compilation failed pretty early and
-   was hence not further evaluated.
+  * For some reason compilation failed pretty early and
+    was hence not further evaluated.
 * Windows Linux Subsystem
-** This was not tested.
+  * This was not tested.
 
 ## Further Info
 
