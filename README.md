@@ -82,6 +82,32 @@ NOT COMPLETE YET! Work in progress ...
 
 No compilation, no distribution, right?
 
+## State of the Windows Port
+
+Work in progress.
+
+### Adapted Repositories
+
+### Missing / TBD
+
+* Testing
+** None of the test code has been adapted or even tried.
+* kms-filters
+** This is intended once OpenCV 4 is supported
+* Debug Support
+** In kurento-media-server the class DeathHandler should
+   be adapted to create stack traces on Windows etc.
+** Clang and sanitizers have not been tested.
+* Packaging
+** Maybe add an NSIS installer for Windows.
+* Visual Studio
+** This seems like an enormous effort and is not planned.
+* Cygwin
+** For some reason compilation failed pretty early and
+   was hence not further evaluated.
+* Windows Linux Subsystem
+** This was not tested.
+
 ## Further Info
 
 https://www.kurento.org/

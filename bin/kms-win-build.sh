@@ -36,8 +36,8 @@ function enter_build_dir()
 enter_build_dir jsoncpp
 cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
       -DCMAKE_INSTALL_PREFIX="$CMAKE_INSTALL_PREFIX" \
-      -DBUILD_STATIC_LIBS=ON \
-      -DBUILD_SHARED_LIBS=OFF \
+      -DBUILD_STATIC_LIBS=OFF \
+      -DBUILD_SHARED_LIBS=ON \
       ../../jsoncpp
 make
 make install
@@ -103,6 +103,17 @@ enter_build_dir websocketpp
 cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
       -DCMAKE_INSTALL_PREFIX="$CMAKE_INSTALL_PREFIX" \
       ../../websocketpp
+make
+make install
+popd
+
+
+# kurento-media-server
+enter_build_dir kurento-media-server
+cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
+      -DCMAKE_INSTALL_PREFIX="$CMAKE_INSTALL_PREFIX" \
+      ../../kurento-media-server
+
 make
 make install
 popd
