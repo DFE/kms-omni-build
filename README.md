@@ -76,11 +76,9 @@ stuff.
 In the MingW 64-bit console (not MSYS2 MSYS!):
 * bin/kms-win-build.sh
 
-NOT COMPLETE YET! Work in progress ...
-
 ## Creating a Distribution Packages
 
-No compilation, no distribution, right?
+In progress ...
 
 ## State of the Windows Port
 
@@ -92,7 +90,7 @@ KMS
 * jsoncpp (no changes)
 * kms-cmake-utils
 * kms-core
-* kms-elements (PENDING)
+* kms-elements
 * kms-jsonrpc (no changes)
 * kurento-media-server
 * kurento-module-creator

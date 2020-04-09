@@ -113,7 +113,17 @@ enter_build_dir kurento-media-server
 cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
       -DCMAKE_INSTALL_PREFIX="$CMAKE_INSTALL_PREFIX" \
       ../../kurento-media-server
+make
+make install
+popd
 
+
+# kms-elements
+enter_build_dir kms-elements
+cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
+      -DCMAKE_INSTALL_PREFIX="$CMAKE_INSTALL_PREFIX" \
+      -DKURENTO_MODULES_DIR=$MINGW_PREFIX/share/kurento/modules/ \
+      ../../kms-elements
 make
 make install
 popd
@@ -122,7 +132,5 @@ popd
 cat <<EOF
 
 **********************************************************
-Yep, that's it so far.
-Many more repos to compile, but these are not ready yet.
-Please try again later ...
+Installation step pending...
 EOF
