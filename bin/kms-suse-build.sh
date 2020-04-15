@@ -1,13 +1,10 @@
 #!/bin/bash
 
-# DOES NOT WORK for kms-elements!
+# This script installs Kurento on Tumbleweed.
+# OpenSUSE Leap 15.1 is missing some package for kms-elements.
 # Need to wait for Leap 15.2 for new GStreamer.
 
-# This is a simplified version of kms-build-run.sh to
-# create a release build of KMS on OpenSUSE. This was
-# tested on Leap 15.1. Be aware that you need quite
-# a bunch to be installed via yast or zypper. You will
-# see the according errors, if you missed something ...
+# Be sure to run install-suse-packages.sh beforehands.
 
 # exit on error
 set -e
@@ -18,13 +15,17 @@ KMS_BUILD_DIR=$KMS_MAIN_DIR/build
 
 # use all available processors for compilation
 export MAKEFLAGS="-j$(nproc)"
-# tell CMake to generate makefiles for MSYS
+
+# Install into system directories. I invested quite some
+# effort to make it also work in a private directory
+# such as $HOME/kurento. But that would require quite some
+# modifications to the CMakefiles.
+CMAKE_INSTALL_PREFIX=/usr
+# Release build
 CMAKE_BUILD_TYPE=Release
-CMAKE_INSTALL_PREFIX=$HOME/kurento
-# get CMake version as MAJOR.MINOR as CMake modules
-# are stored in that directory
-CMAKEVERSION=$(cmake --version | egrep -o '[0-9]\.[0-9]+')
-CMAKE_MODULE_PATH="$CMAKE_INSTALL_PREFIX"/share/cmake-$CMAKEVERSION/Modules
+# OpenSUSE puts files into "cmake" whereas *some* Kurento modules
+# are using "cmake-<version>".
+CMAKE_MODULE_PATH="$CMAKE_INSTALL_PREFIX/share/cmake/Modules"
 
 
 # creates the target build directory
@@ -57,6 +58,8 @@ popd
 
 
 # kms-jsonrpc requires a specific kmsjsoncpp
+# do not use the static libs or you end up in
+# multiply defined functions
 enter_build_dir jsoncpp
 cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
       -DCMAKE_INSTALL_PREFIX="$CMAKE_INSTALL_PREFIX" \
@@ -64,51 +67,7 @@ cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
       -DBUILD_SHARED_LIBS=ON \
       ../../jsoncpp
 make
-make install
-popd
-
-
-# kms-cmake-utils
-enter_build_dir kms-cmake-utils
-cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
-      -DCMAKE_INSTALL_PREFIX="$CMAKE_INSTALL_PREFIX" \
-      ../../kms-cmake-utils
-make
-make install
-popd
-
-
-# kurento-module-creator
-# Note: This is built in the source directory, not in
-#       the build directory.
-pushd kurento-module-creator
-mvn package
-mkdir -p "$CMAKE_INSTALL_PREFIX"/bin/
-cp scripts/kurento-module-creator "$CMAKE_INSTALL_PREFIX"/bin/
-cp target/kurento-module-creator-jar-with-dependencies.jar "$CMAKE_INSTALL_PREFIX"/bin/
-cp target/classes/FindKurentoModuleCreator.cmake "$CMAKE_MODULE_PATH"
-popd
-
-
-# kms-jsonrpc
-enter_build_dir kms-jsonrpc
-cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
-      -DCMAKE_INSTALL_PREFIX="$CMAKE_INSTALL_PREFIX" \
-	  -DCMAKE_MODULE_PATH="$CMAKE_MODULE_PATH" \
-      ../../kms-jsonrpc
-make
-make install
-popd
-
-
-# kms-core
-enter_build_dir kms-core
-cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
-      -DCMAKE_INSTALL_PREFIX="$CMAKE_INSTALL_PREFIX" \
-	  -DCMAKE_MODULE_PATH="$CMAKE_MODULE_PATH" \
-      ../../kms-core
-make
-make install
+sudo make install
 popd
 
 
@@ -120,8 +79,61 @@ cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
 	  -DINSTALL_CMAKE_DIR="$CMAKE_MODULE_PATH" \
       ../../websocketpp
 make
-make install
-ln -sf "$CMAKE_INSTALL_PREFIX"/include/websocketpp "$CMAKE_INSTALL_PREFIX"/include/kurento/websocketpp
+sudo make install
+popd
+
+
+# kurento-module-creator
+# Note: This is built in the source directory, not in
+#       the build directory.
+pushd kurento-module-creator
+mvn package
+mkdir -p "$CMAKE_INSTALL_PREFIX"/bin/
+sudo cp scripts/kurento-module-creator "$CMAKE_INSTALL_PREFIX"/bin/
+sudo cp target/kurento-module-creator-jar-with-dependencies.jar "$CMAKE_INSTALL_PREFIX"/bin/
+sudo cp target/classes/FindKurentoModuleCreator.cmake "$CMAKE_MODULE_PATH"
+popd
+
+
+# So far we have now installed the prerequisites for Kurento.
+# You can uncomment the exit line below and try it now with
+# the regular kms-build-run.sh instead. Good luck!
+# exit 0
+
+
+# kms-cmake-utils
+enter_build_dir kms-cmake-utils
+cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
+	  -DCMAKE_MODULE_PATH="$CMAKE_MODULE_PATH" \
+      -DCMAKE_INSTALL_PREFIX="$CMAKE_INSTALL_PREFIX" \
+	  -DCMAKE_MODULES_INSTALL_DIR="$CMAKE_MODULE_PATH" \
+      ../../kms-cmake-utils
+make
+sudo make install
+popd
+
+
+# kms-jsonrpc
+enter_build_dir kms-jsonrpc
+cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
+      -DCMAKE_INSTALL_PREFIX="$CMAKE_INSTALL_PREFIX" \
+	  -DCMAKE_MODULE_PATH="$CMAKE_MODULE_PATH" \
+	  -DCMAKE_MODULES_INSTALL_DIR="$CMAKE_MODULE_PATH" \
+      ../../kms-jsonrpc
+make
+sudo make install
+popd
+
+
+# kms-core
+enter_build_dir kms-core
+cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
+      -DCMAKE_INSTALL_PREFIX="$CMAKE_INSTALL_PREFIX" \
+	  -DCMAKE_MODULE_PATH="$CMAKE_MODULE_PATH" \
+	  -DCMAKE_MODULES_INSTALL_DIR="$CMAKE_MODULE_PATH" \
+      ../../kms-core
+make
+sudo make install
 popd
 
 
@@ -135,7 +147,7 @@ cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
 	  -DWEBSOCKETPP_DIR="$CMAKE_MODULE_PATH" \
       ../../kurento-media-server
 make
-make install
+sudo make install
 popd
 
 
@@ -147,6 +159,6 @@ cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
 	  -DCMAKE_MODULE_PATH="$CMAKE_MODULE_PATH" \
       ../../kms-elements
 make
-make install
+sudo make install
 popd
 
