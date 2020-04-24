@@ -78,7 +78,8 @@ In the MingW 64-bit console (not MSYS2 MSYS!):
 
 ## Creating a Distribution Packages
 
-In progress ...
+Finally invoke:
+* bin/kms-win-dist.sh
 
 ## State of the Windows Port
 
