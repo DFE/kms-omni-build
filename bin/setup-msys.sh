@@ -21,8 +21,8 @@ set -e
 #
 #          DO NOT ADD THESE TO THE REGULAR Windows PATH!!!
 #
-JDK_VERSION=8u242-b08
-JDK_PKG=OpenJDK8U-jdk_x64_windows_hotspot_8u242b08.zip
+JDK_VERSION=8u275-b01
+JDK_PKG=OpenJDK8U-jdk_x64_windows_hotspot_8u275b01.zip
 JDK_DIR=jdk$JDK_VERSION
 
 MAVEN_VERSION=3.6.3
