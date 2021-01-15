@@ -8,9 +8,12 @@
 # exit on error
 set -e
 
+# be verbose
+set -x
+
 SCRIPT_DIR=${0%/*}
-KMS_MAIN_DIR=$SCRIPT_DIR/..
-KMS_BUILD_DIR=$KMS_MAIN_DIR/build
+KMS_MAIN_DIR="$(realpath $SCRIPT_DIR/..)"
+KMS_BUILD_DIR="$KMS_MAIN_DIR/build"
 
 # use all available processors for compilation
 export MAKEFLAGS="-j$(nproc)"
@@ -43,7 +46,7 @@ make
 make install
 popd
 
-
+cd ${KMS_MAIN_DIR}
 pushd libuuid
 if [ ! -f "$CMAKE_INSTALL_PREFIX/lib/libuuid.a" ]; then
   # libtool in the package is outdated and generates
