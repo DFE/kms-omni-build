@@ -39,8 +39,8 @@ not intended.
 
 ### Clone Me!
 
-* Per ssh: git clone -b bionic-gstreamer git@github.com:DFE/kms-omni-build
-* Per https: git clone -b bionic-gstreamer https://github.com/DFE/kms-omni-build.git
+* Per ssh: git clone git@github.com:DFE/kms-omni-build
+* Per https: git clone https://github.com/DFE/kms-omni-build.git
 
 If you want to commit something later, do not forget to:
 * git config --global user.email "you@example.com"
@@ -129,7 +129,7 @@ https://www.kurento.org/
 
 ## Original Repository
 
-https://github.com/Kurento/kms-omni-build/tree/bionic-gstreamer
+https://github.com/Kurento/kms-omni-build/tree/master
 
 ## License
 
