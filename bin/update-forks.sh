@@ -5,20 +5,21 @@
 # This will be no longer needed once merged into the
 # original repositories.
 
-# exit on failure
-set -e
-
 DIRNAME=${0%/*}
 
-cd "$DIRNAME/.."
+MAINDIR="$(realpath "$DIRNAME/..")"
+cd "$MAINDIR"
 
-SUBMODULES=$(grep submodule .gitmodules | grep -v kms-filters | awk -F\" '{ print $2 }')
+SUBMODULES=$(grep submodule .gitmodules | awk -F\" '{ print $2 }')
 
 for sm in . $SUBMODULES
 do
-	pushd $sm
-	git pull
-	git fetch upstream
-	popd
+	if [ -d $sm/.git ]; then
+		echo Updating $sm
+		cd $sm && \
+		git pull && \
+		git fetch upstream
+		cd "$MAINDIR"
+	fi
 done
 
