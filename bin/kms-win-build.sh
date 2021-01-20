@@ -134,6 +134,6 @@ popd
 
 cat <<EOF
 
-**********************************************************
-Installation step pending...
+*************************************************************
+Now invoke kms-win-dist.sh to create the distribution package
 EOF
