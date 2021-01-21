@@ -1,10 +1,5 @@
 # Kurento for Windows
 
-WE ARE MOVING TO THE MASTER BRANCH!
-FOR A PRELIMINARY VERSION PLEASE USE BRANCH bionic-gstreamer!
-
-
-
 The goal is to have Kurento Media Server running on Windows.
 Once working, this fork repository and the associated submodules
 will be merged into the official Kurento repositories.
@@ -15,7 +10,8 @@ not intended.
 
 ## Prerequisites
 
-* The port has been tested on Microsoft Windows 10 and Windows Server 2008 R2, both 64 bit variants.
+* The port has been tested on Microsoft Windows 10 and Windows Server 2008 R2, both
+  using 64 bit variants.
 * The build requires MSYS2.
 * You require an account with administrator rights.
   It may work somehow without, but that has not been tested.
@@ -84,9 +80,35 @@ In the MingW 64-bit console (not MSYS2 MSYS!):
 Finally invoke:
 * bin/kms-win-dist.sh
 
-## State of the Windows Port
+By default this installs all required files on the user's
+Desktop in directory Kurento.
 
-Work in progress.
+## Starting Kurento on Windows
+
+CAUTION:
+If you change the location of Kurento, then you may run into
+awkward error messages. The problem is that GStreamer keeps
+a cache with paths. Once you move modules and libraries
+GStreamer will not find them in the new location but will still
+search in the old location.
+
+IF YOU MOVE THE INSTALLATION, WIPE:
+$LOCALAPPDATA/Microsoft/Windows/Temporary\ Internet\ Files/gstreamer-1.0/registry.x86_64.bin
+For Explorer this is typically:
+C:\Users\<user>\AppData\Local\Microsoft\Windows\Temporary Internet Files\gstreamer-1.0\registry.x86_64.bin
+
+* First, configure Kurento in Kurento\etc\...
+* Open Kurento\bin and start kurento-media-server.exe
+
+In case of issues:
+* start mingw64.exe
+* export GST_DEBUG="7,Kurento*:7,kms*:7,sdp*:7,webrtc*:7,*rtpendpoint:7,rtp*handler:7,rtpsynchronizer:7"
+  (see https://gstreamer.freedesktop.org/documentation/tutorials/basic/debugging-tools.html?gi-language=c)
+* cd Kurento/bin
+* ./kurento-media-server.exe > ../logs/startup.txt 2>&1
+* startup.txt contains the startup info mainly of GStreamer including the loading of its modules, the
+  other logs then contain the debug output of KMS.
+
 
 ### Adapted Repositories
 
@@ -129,7 +151,7 @@ https://www.kurento.org/
 
 ## Original Repository
 
-https://github.com/Kurento/kms-omni-build/tree/master
+https://github.com/Kurento/kms-omni-build
 
 ## License
 
